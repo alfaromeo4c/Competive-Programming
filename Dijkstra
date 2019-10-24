@@ -22,7 +22,7 @@ vector<T> Dijkstra(vector<vector<Edge<T>>>& edges, Int st) {
 	vector<T> cost(V, inf);
 	cost[st] = 0;
 
-	priority_queue<Edge<T>, vector<Edge<T>>, greater<Edge<T>>> p_que;
+	priority_queue<Edge<T>, vector<Edge<T>>, greater<Edge<T>>> p_que;//要素の型はEdge<T>、内部コンテナはvector<Edge>>、昇順
 	p_que.emplace(st, cost[st]);
 
 	while (!p_que.empty()) {
