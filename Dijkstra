@@ -27,10 +27,14 @@ vector<T> Dijkstra(vector<vector<Edge<T>>>& edges, Int st) {
 
 	while (!p_que.empty()) {
 
-		Edge<T> now(p_que.top().to, p_que.top().cost);
+		Edge<T> now(p_que.top().to, p_que.top().cost);//now.to: 配る側になった頂点 now.cost: その頂点の最小コスト
 		p_que.pop();
 
+		//↓この一行、有向グラフ（行きと帰りで辺の重みが違う場合）で威力を発揮、オーダーレベルで計算量が異なることも
+		//後からキューに入れたものが追い越した場合、追い越されたものはオワコンになる
 		if (cost[now.to] < now.cost) continue;
+
+
 		for (const Edge<T>& e : edges[now.to]) {
 			T tmp_cost = now.cost + e.cost;
 			if (cost[e.to] > tmp_cost) {
