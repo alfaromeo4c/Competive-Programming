@@ -20,7 +20,7 @@ vector<T> Bellman_Ford(vector<Edge<T>>& edges, Int V, Int st) {
 	dist[st] = 0;
 	for (Int i = 0; i < V - 1; i++) {
 		for (const auto& e : edges) {
-			if (dist[e.from] == inf) continue;
+			if (dist[e.from] == inf) continue;//枝切かつオーバーフローを防ぐ
 			dist[e.to] = min(dist[e.to], dist[e.from] + e.cost);
 		}
 	}
