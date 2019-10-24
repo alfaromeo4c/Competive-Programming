@@ -1,0 +1,39 @@
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+using Int = long long;
+
+template<class T = Int>
+struct Edge {
+	Int from, to;
+	T cost;
+	Edge() {}
+	Edge(Int from, Int to, T cost) : from(from), to(to), cost(cost) {}
+};
+
+template<class T>
+vector<T> Bellman_Ford(vector<Edge<T>>& edges, Int V, Int st) {
+
+	const T inf = numeric_limits<T>::max() / 2; //いつものINFとは別に設定
+	vector<T> dist(V, inf);
+	dist[st] = 0;
+	for (Int i = 0; i < V - 1; i++) {
+		for (const auto& e : edges) {
+			if (dist[e.from] == inf) continue;
+			dist[e.to] = min(dist[e.to], dist[e.from] + e.cost);
+		}
+	}
+
+	//負閉路の探索
+	//-infが伝播するのにV（頂点数）回かかる
+	for (Int i = 0; i < V; i++) {
+		for (const auto& e : edges) {
+			if (dist[e.from] == inf) continue;
+			if (dist[e.from] == -inf) dist[e.to] = -inf; //fromが負閉路ならtoも負閉路
+			else if (dist[e.to] > dist[e.from] + e.cost) dist[e.to] = -inf; // V回目以降に更新される→負閉路
+		}
+	}
+
+	return dist;
+}
