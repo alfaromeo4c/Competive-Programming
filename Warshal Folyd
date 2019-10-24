@@ -1,0 +1,37 @@
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+using Int = long long;
+const Int INF = 1010101010;
+
+template<class T>
+inline bool chmin(T& a, T b) { return a > b && (a = b, true); }
+
+int main() {
+
+	Int N, M;
+	cin >> N >> M;
+
+	vector<vector<Int>> d(N, vector<Int>(N, INF));
+	for (Int i = 0; i < N; i++) d[i][i] = 0;
+
+	for (Int i = 0; i < M; i++) {
+		Int a, b, c;
+		cin >> a >> b >> c;
+		a--, b--;
+		d[a][b] = c;
+		d[b][a] = c;
+	}
+
+	for (Int k = 0; k < N; k++) {
+		for (Int i = 0; i < N; i++) {
+			for (Int j = 0; j < N; j++) {
+				chmin(d[i][j], d[i][k] + d[k][j]);
+			}
+		}
+	}
+
+}
