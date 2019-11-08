@@ -1,0 +1,7 @@
+Int gcd(Int a, Int b) {
+	return (b ? gcd(b, a % b) : a);
+}
+
+Int lcm(Int a, Int b) {
+	return a * b / gcd(a, b);
+}
