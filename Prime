@@ -1,8 +1,9 @@
-#include <vector>
 
-using namespace std;
-using Int = long long;
-
+/*使い方
+Prime a;//まずPrimeクラスのaを作成
+auto s = a.factorize(12);//12を素因数分解する → sに(2,2)(3,1)が得られる
+bool t = a.isPrime(12);//12が素数かどうか判定する → tにfalseが得られる
+*/
 class Prime {
 private:
 	vector<Int> min_pf; // min_pf[i] = minimum prime factor of i
