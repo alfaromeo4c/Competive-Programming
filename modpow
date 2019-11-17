@@ -1,7 +1,7 @@
 using Int = long long;
 const Int MOD = 1000000007;
 
-Int modpow(Int a, Int n, Int mod = MOD) {//a^n modの計算
+Int modpow(Int a, Int n, Int mod = MOD) {//a^n modの計算 (O(N)→O(logN))
 	Int res = 1;
 	while (n > 0) {
 		if (n & 1) res = res * a % mod;
