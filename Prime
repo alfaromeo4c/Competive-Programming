@@ -1,0 +1,74 @@
+#include <vector>
+
+using namespace std;
+using Int = long long;
+
+class Prime {
+private:
+	vector<Int> min_pf; // min_pf[i] = minimum prime factor of i
+	vector<Int> prime;
+
+	// ふるい
+	void sieve(Int N) {
+		min_pf[0] = min_pf[1] = -1;
+		for (Int i = 2; i < N; i++) {
+			if (min_pf[i] == 0) {
+				prime.emplace_back(i);
+				min_pf[i] = i;
+			}
+			for (Int j = 0; j < (Int)(prime.size()); ++j) {
+				if (prime[j] > min_pf[i] || i * prime[j] >= N) break;
+				min_pf[i * prime[j]] = prime[j];
+			}
+		}
+	}
+
+public:
+	Prime(Int N = 1100000) : min_pf(N + 1) { sieve(N + 1); }
+
+	//因数分解
+	vector<pair<Int, Int>> factorize(Int n) {//（数字、個数）
+		vector<pair<Int, Int>> res;
+		Int sz = (Int)min_pf.size();
+
+		for (Int i = 2; i * i <= n; i++) {
+			if (n < sz) break;
+			Int cnt = 0;
+			while (n % i == 0) {
+				cnt++;
+				n /= i;
+			}
+			if (cnt) res.emplace_back(i, cnt);
+		}
+
+		if (n >= sz) res.emplace_back(n, 1);
+		else {
+			Int prev = min_pf[n], cnt = -1;
+			while (n > 0) {
+				Int now = min_pf[n];
+				n /= now;
+				cnt++;
+				if (prev != now) {
+					res.emplace_back(prev, cnt);
+					prev = now;
+					cnt = 0;
+				}
+			}
+		}
+
+		return res;
+	}
+
+	// 素数判定
+	bool isPrime(Int n) {
+		if (n < (Int)(min_pf.size())) return min_pf[n] == n;
+		else if (n == 2 || n == 3) return true;
+		else if (n % 2 == 0 || n % 3 == 0) return false;
+		else if (n % 6 != 1 && n % 6 != 5) return false;
+		for (Int i = 5; i * i <= n; i += 6) {
+			if (n % i == 0) return false;
+			if (n % (i + 2) == 0) return false;
+		}
+		return true;
+	}
+};
