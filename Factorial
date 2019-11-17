@@ -1,0 +1,41 @@
+/*使い方
+Factorial a;//Factorialクラスのaを作成　
+
+（※デフォルトで110000が入っているが、もっと大きいnで計算したい場合
+Factorial a(1000000);
+などと置く必要がある）
+
+Int b = a.Pmod(5, 2);//nPkを計算 → 20を出力
+Int c = a.Cmod(5, 2);//nCkを計算 → 10を出力
+Int d = a.Pmod(5, 5);//n!を計算 → 120を出力
+
+*/
+class Factorial {
+private:
+	vector<Int> fac, inv, finv;
+
+	void build(Int N) {
+		fac[0] = fac[1] = 1; inv[1] = 1; finv[0] = finv[1] = 1;
+
+		for (Int i = 2; i < N; i++) {
+			fac[i] = fac[i - 1] * i % MOD;
+			inv[i] = MOD - inv[MOD % i] * (MOD / i) % MOD;
+			finv[i] = finv[i - 1] * inv[i] % MOD;
+		}
+	}
+
+public:
+	Factorial(Int N = 110000) : fac(N + 1), inv(N + 1), finv(N + 1) { build(N + 1); }
+
+	//nCkの計算
+	Int Cmod (Int n, Int k) {
+		if (n < k || k < 0) return 0LL;
+		return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+	}
+
+	//nPkの計算
+	Int Pmod(Int n, Int k) {
+		if (n < k || k < 0) return 0LL;
+		return fac[n] * finv[n - k] % MOD;
+	}
+};
