@@ -1,6 +1,10 @@
 
 /*使い方
 Prime a;//まずPrimeクラスのaを作成
+（※デフォルトで110000が入っているが、もっと大きいNまでの素数を予め計算したい場合
+Prime a(1000000);
+などと置く必要がある）
+
 auto s = a.factorize(12);//12を素因数分解する → sに(2,2)(3,1)が得られる
 bool t = a.isPrime(12);//12が素数かどうか判定する → tにfalseが得られる
 */
@@ -9,7 +13,9 @@ private:
 	vector<Int> min_pf; // min_pf[i] = minimum prime factor of i
 	vector<Int> prime;
 
-	// ふるい
+	// エラトステネスの篩
+	//Primeクラスを呼び出した際、Nまでの素数を予め篩にかける
+	//Nはデフォルトで1100000
 	void sieve(Int N) {
 		min_pf[0] = min_pf[1] = -1;
 		for (Int i = 2; i < N; i++) {
