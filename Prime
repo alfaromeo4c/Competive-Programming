@@ -33,6 +33,8 @@ public:
 	Prime(Int N = 1100000) : min_pf(N + 1) { sieve(N + 1); }
 
 	//素因数分解
+	//ある整数Mを素因数分解したい場合、√Mまでの素数を全てリストアップする必要がある（上記の篩）
+	//逆に言えば、√Mまででよい
 	vector<pair<Int, Int>> factorize(Int n) {//（数字、個数）
 		vector<pair<Int, Int>> res;
 		Int sz = (Int)min_pf.size();
